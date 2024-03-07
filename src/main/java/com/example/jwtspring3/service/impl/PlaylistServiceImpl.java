@@ -1,7 +1,10 @@
 package com.example.jwtspring3.service.impl;
 
 import com.example.jwtspring3.model.PlayList;
+import com.example.jwtspring3.model.SongPlayList;
 import com.example.jwtspring3.repository.PlaylistRepository;
+import com.example.jwtspring3.repository.SongPlaylistRepository;
+import com.example.jwtspring3.repository.SongRepository;
 import com.example.jwtspring3.service.IPlaylistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +14,8 @@ import java.util.Optional;
 public class PlaylistServiceImpl implements IPlaylistService {
    @Autowired
     PlaylistRepository playlistRepository;
+   @Autowired
+    SongPlaylistRepository songPlaylistRepository;
     @Override
     public Iterable<PlayList> findAll() {
         return playlistRepository.findAll();
@@ -28,6 +33,7 @@ public class PlaylistServiceImpl implements IPlaylistService {
 
     @Override
     public void remove(Long id) {
+        songPlaylistRepository.deleteAll(songPlaylistRepository.findAllByPlayListId(id));
         playlistRepository.deleteById(id);
     }
 
